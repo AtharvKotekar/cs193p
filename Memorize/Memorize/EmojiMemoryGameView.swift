@@ -1,5 +1,5 @@
 //
-//  ContentView.swift
+//  EmojiMemoryGameView.swift
 //  Memorize
 //
 //  Created by Atharv on 4/17/25.
@@ -7,20 +7,15 @@
 
 import SwiftUI
 
-struct ContentView: View {
+struct EmojiMemoryGameView: View {
     
     //Emoji Array (data)
     let emojis: [String] = ["🗿","🫡","🪓","💀","🦅","🚬","🔫","🧠","🦾","🍃","🪵","🚀"]
-    
-    @State var cardCount: Int = 4
-    
+
     var body: some View {
-        VStack {
-            ScrollView{
-                cards
-            }
-            Spacer()
-            cardCoutAdjuster
+        
+        ScrollView{
+            cards
         }
         .padding()
     }
@@ -31,9 +26,9 @@ struct ContentView: View {
     
     //Cards List View
     var cards : some View {
-        LazyVGrid(columns: [GridItem(.adaptive(minimum: 120))]){
+        LazyVGrid(columns: [GridItem(.adaptive(minimum: 85))]){
             
-            ForEach(0..<cardCount, id: \.self){ index in
+            ForEach(emojis.indices, id: \.self){ index in
                 CardView(content: emojis[index])
                     .aspectRatio(2/3, contentMode: .fit)
             }
@@ -41,36 +36,6 @@ struct ContentView: View {
         }
     }
     
-    //Card count adjuster
-    var cardCoutAdjuster : some View {
-        HStack{
-            cardRemover
-            Spacer()
-            cardAdder
-        }
-        .imageScale(.large)
-        .font(.largeTitle)
-    }
-    
-    //Adjuster Button
-    func cardCountAdjuster(by offset: Int, symbol:String) -> some View {
-        Button(action:{
-            cardCount += offset
-        }, label: {
-            Image(systemName: symbol)
-        })
-        .disabled(cardCount + offset < 1 || cardCount + offset > emojis.count)
-    }
-    
-    //Cards Remover button
-    var cardRemover: some View {
-        cardCountAdjuster(by: -1, symbol: "rectangle.stack.badge.minus")
-    }
-    
-    //Cards Adder button
-    var cardAdder : some View {
-        cardCountAdjuster(by: +1, symbol: "rectangle.stack.badge.plus")
-    }
 }
 
 
@@ -126,5 +91,5 @@ struct CardView: View {
 
 
 #Preview {
-    ContentView()
+    EmojiMemoryGameView()
 }
